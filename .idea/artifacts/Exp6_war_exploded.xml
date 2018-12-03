@@ -1,0 +1,38 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Exp6:war exploded">
+    <output-path>$PROJECT_DIR$/target/exp6-bookstore</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Exp6" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.xerial:sqlite-jdbc:3.25.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.1.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.webjars:bootstrap:4.1.3" />
+          <element id="library" level="project" name="Maven: org.webjars:jquery:3.0.0" />
+          <element id="library" level="project" name="Maven: org.webjars:popper.js:1.14.3" />
+          <element id="library" level="project" name="Maven: org.webjars.bower:jquery:3.3.1" />
+          <element id="library" level="project" name="Maven: org.json:json:20180813" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.7" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.7" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.7" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/exp6-bookstore/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="Exp6/web/Web" />
+    </root>
+  </artifact>
+</component>

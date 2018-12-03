@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>图书商城服务端管理系统</title>
+    <link href="../css/bootstrap-combined.min.css" rel="stylesheet" />
+    <link href="../css/layoutit.css" rel="stylesheet" />
+    <!-- 可视化对bootstrap4.0及以上版本兼容性不好 -->
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            /*页面载入时*/
+            $("#bookForm").hide();
+            $("#search1").hide();
+            $("#search2").hide();
+            $("#showOrNot").hide();
+            $.ajax({
+                url: "/user/viewAllUser",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if(data[0].id){
+                        var html = "";
+                        html += "<thead><tr><th>用户id</th><th>用户名</th><th>密码</th><th>电话号码</th><th>手机号码</th><th>邮箱</th><th>地址</th></tr></thead>";
+                        for(var i in data){
+                            html += "<tr><td>"+data[i].id+"</td><td>"+data[i].username+"</td><td>"+data[i].password+"</td><td>"+data[i].phone+"</td><td>"+data[i].cellphone+"</td><td>"+data[i].email+"</td><td>"+data[i].address+"</td></tr>";
+                            $("#searchResult").html(html);
+                        }
+                    }else {
+                        $("#searchResult").html("未查询到用户");
+                    }
+                },
+                error: function (jqXHR) {
+                    alert("发生错误："+jqXHR.status);
+                }
+            })
+            /*点击用户信息查询时*/
+            $("#viewUser").click(function () {
+                $("#bookForm").hide();
+                $("#searchResult1").hide();
+                $("#searchResult2").hide();
+                $("#search1").hide();
+                $("#search2").hide();
+                $("#searchResult3").hide();
+                $("#showOrNot").hide();
+                $("#username").show();
+                $("#search").show();
+                $("#searchResult").show();
+                $.ajax({
+                    url: "/user/viewAllUser",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data[0].id){
+                            var html = "";
+                            html += "<thead><tr><th>用户id</th><th>用户名</th><th>密码</th><th>电话号码</th><th>手机号码</th><th>邮箱</th><th>地址</th></tr></thead>";
+                            for(var i in data){
+                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].username+"</td><td>"+data[i].password+"</td><td>"+data[i].phone+"</td><td>"+data[i].cellphone+"</td><td>"+data[i].email+"</td><td>"+data[i].address+"</td></tr>";
+                                $("#searchResult").html(html);
+                            }
+                        }else {
+                            $("#searchResult").html("未查询到用户");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+        /*点击查找用户信息时*/
+        $(function () {
+            $("#search").click(function () {
+                $("#bookForm").hide();
+                $("#searchResult1").hide();
+                $("#username").show();
+                $("#search").show();
+                $("#searchResult").show();
+                $.ajax({
+                    url: "/user/viewUser?username="+$("#username").val(),
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.id){
+                            var html = "";
+                            html += "<thead><tr><th>用户id</th><th>用户名</th><th>密码</th><th>电话号码</th><th>手机号码</th><th>邮箱</th><th>地址</th></tr></thead>";
+                            html += "<tr><td>"+data.id+"</td><td>"+data.username+"</td><td>"+data.password+"</td><td>"+data.phone+"</td><td>"+data.cellphone+"</td><td>"+data.email+"</td><td>"+data.address+"</td></tr>";
+                            $("#searchResult").html(html);
+                        }else {
+                            $("#searchResult").html("未查询到该用户");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+        /*点击书籍查看时*/
+        $(function () {
+            $("#viewBook").click(function () {
+                $("#bookForm").hide();
+                $("#username").hide();
+                $("#search").hide();
+                $("#searchResult").hide();
+                $("#searchResult2").hide();
+                $("#search1").hide();
+                $("#search2").hide();
+                $("#searchResult3").hide();
+                $("#showOrNot").hide();
+                $("#searchResult1").show();
+                $.ajax({
+                    url: "/book/viewAllBook",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data[0].id){
+                            var html = "";
+                            html += "<thead><tr><th>书id</th><th>书名</th><th>作者</th><th>价格</th><th>图片</th><th>简介</th><th>类别</th></tr></thead>";
+                            for(var i in data){
+                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].author+"</td><td>"+data[i].price+"</td><td>"+data[i].image+"</td><td>"+data[i].description+"</td><td>"+data[i].category+"</td></tr>";
+                                $("#searchResult1").html(html);
+                            }
+                        }else {
+                            $("#searchResult1").html("未查询到书籍");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+        /*点击书籍录入时*/
+        $(function () {
+            $("#insertBook").click(function () {
+                $("#username").hide();
+                $("#search").hide();
+                $("#searchResult").hide();
+                $("#searchResult1").hide();
+                $("#searchResult2").hide();
+                $("#search1").hide();
+                $("#search2").hide();
+                $("#showOrNot").hide();
+                $("#searchResult3").hide();
+                $("#bookForm").show();
+            })
+        })
+        /*点击提交书籍表单时*/
+        $(function () {
+            $("#submitBook").click(function () {
+                $.ajax({
+                    url: "/book/insertBook",
+                    type: "POST",
+                    data : {
+                        "id": $("#id").val(),
+                        "name": $("#name").val(),
+                        "author": $("#author").val(),
+                        "price": $("#price").val(),
+                        "image": $("#image").val(),
+                        "description": $("#description").val(),
+                        "category": $("#category").val()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#bookForm").hide();
+                        $("#searchResult1").show();
+                        if(data){
+                            $.ajax({
+                                url: "/book/viewAllBook",
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    if(data){
+                                        var html = "";
+                                        html += "<thead><tr><th>书id</th><th>书名</th><th>作者</th><th>价格</th><th>图片</th><th>简介</th><th>类别</th></tr></thead>";
+                                        for(var i in data){
+                                            html += "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].author+"</td><td>"+data[i].price+"</td><td>"+data[i].image+"</td><td>"+data[i].description+"</td><td>"+data[i].category+"</td></tr>";
+                                            $("#searchResult1").html(html);
+                                        }
+                                    }else {
+                                        $("#searchResult1").html("未查询到书籍");
+                                    }
+                                },
+                                error: function (jqXHR) {
+                                    alert("发生错误："+jqXHR.status);
+                                }
+                            })
+                        }else {
+                            $("#searchResult1").html("未查询到书籍");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+        /*点击管理订单信息时*/
+        $(function () {
+            $("#viewAllOrders").click(function () {
+                $("#bookForm").hide();
+                $("#searchResult1").hide();
+                $("#username").hide();
+                $("#search").hide();
+                $("#searchResult").hide();
+                $("#searchResult3").hide();
+                $("#showOrNot").show();
+                $("#search1").show();
+                $("#search2").show();
+                $("#searchResult2").show();
+                $.ajax({
+                    url: "/orders/viewAllOrders",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data[0].id){
+                            var html = "";
+                            html += "<thead><tr><th>订单id</th><th>下单时间</th><th>价格</th><th>订单状态</th><th>用户id</th></tr></thead>";
+                            for(var i in data){
+                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].ordertime+"</td><td>"+data[i].price+"</td>" +
+                                    "<td>"+data[i].state+"</td><td>"+data[i].user_id+"</td></tr>";
+                                $("#searchResult2").html(html);
+                            }
+                        }else {
+                            $("#searchResult2").html("未查询到订单");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+        /*点击查找初始订单时*/
+        $(function () {
+            $("#search1").click(function () {
+                $("#bookForm").hide();
+                $("#searchResult1").hide();
+                $("#username").hide();
+                $("#search").hide();
+                $("#searchResult").hide();
+                $("#searchResult3").hide();
+                $("#searchResult2").show();
+                $.ajax({
+                    url: "/orders/viewOriginalOrders?",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data[0].id){
+                            var html = "";
+                            html += "<thead><tr><th>订单id</th><th>下单时间</th><th>价格</th><th>订单状态</th><th>用户id</th></tr></thead>";
+                            for(var i in data){
+                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].ordertime+"</td><td>"+data[i].price+"</td><td>"+data[i].state+"</td><td>"+data[i].user_id+"</td></tr>";
+                                $("#searchResult2").html(html);
+                            }
+                        }else {
+                            $("#searchResult2").html("未查询到订单");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+        /*点击查找已完成订单时*/
+        $(function () {
+            $("#search2").click(function () {
+                $("#bookForm").hide();
+                $("#searchResult1").hide();
+                $("#username").hide();
+                $("#search").hide();
+                $("#searchResult").hide();
+                $("#searchResult3").hide();
+                $("#searchResult2").show();
+                $.ajax({
+                    url: "/orders/viewCompleteOrders?",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data[0].id){
+                            var html = "";
+                            html += "<thead><tr><th>订单id</th><th>下单时间</th><th>价格</th><th>订单状态</th><th>用户id</th></tr></thead>";
+                            for(var i in data){
+                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].ordertime+"</td><td>"+data[i].price+"</td><td>"+data[i].state+"</td><td>"+data[i].user_id+"</td></tr>";
+                                $("#searchResult2").html(html);
+                            }
+                        }else {
+                            $("#searchResult2").html("未查询到订单");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+        /*点击修改订单状态时*/
+        $(function () {
+            $("#toggle").click(function () {
+                $("#searchResult2").hide();
+                $("#searchResult3").show();
+                $.ajax({
+                    url: "/orders/updateState?id="+$("#updateState").val(),
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data[0].id){
+                            var html = "";
+                            html += "<thead><tr><th>订单id</th><th>下单时间</th><th>价格</th><th>订单状态</th><th>用户id</th></tr></thead>";
+                            for(var i in data){
+                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].ordertime+"</td><td>"+data[i].price+"</td><td>"+data[i].state+"</td><td>"+data[i].user_id+"</td></tr>";
+                                $("#searchResult3").html(html);
+                            }
+                        }else {
+                            $("#searchResult3").html("未查询到订单");
+                        }
+                    },
+                    error: function (jqXHR) {
+                        alert("发生错误："+jqXHR.status);
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="text-center text-info">
+                图书商城服务端管理系统
+            </h3>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                    <p>
+                        用户管理
+                    </p>
+                </li>
+                <li>
+                    <a href="#" id="viewUser">用户信息查询</a>
+                </li>
+
+                <li class="nav-header">
+                    书籍管理
+                </li>
+                <li>
+                    <a href="#" id="viewBook">书籍查看</a>
+                </li>
+                <li>
+                    <a href="#" id="insertBook">书籍录入</a>
+                </li>
+                <li class="nav-header">
+                    订单管理
+                </li>
+                <li>
+                    <a href="#" id="viewAllOrders">管理订单信息</a>
+                </li>
+                <!--<li>
+                    <a href="#" id="updateState">修改订单状态</a>
+                </li>-->
+            </ul>
+        </div>
+        <div class="span10">
+            <input class="input-large search-query" type="text"  name="username" id="username" placeholder="输入用户名" />
+            <button type="submit" class="btn" id="search">查找</button>
+            <button type="submit" class="btn" id="search1">查找初始订单</button>
+            <button type="submit" class="btn" id="search2">查找已完成订单</button>
+
+            <table class="table table-hover" id="searchResult">
+            </table>
+            <table class="table table-hover" id="searchResult1">
+            </table>
+            <table class="table table-hover" id="searchResult2">
+            </table>
+            <table class="table table-hover" id="searchResult3">
+            </table>
+            <div id="showOrNot">
+                <input class="input-large search-query" type="text"  name="updateState" id="updateState" placeholder="输入更新订单的id" />
+                <button type="submit" class="btn" id="toggle">修改订单状态</button>
+            </div>
+
+
+
+            <form class="form-horizontal" role="form" id="bookForm">
+                <legend>输入书籍信息</legend>
+                <div class="form-group">
+                    <label class="col-sm-2">书籍id：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="id" placeholder="请输入书籍id">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">书名：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" placeholder="请输入书名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">作者：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="author" placeholder="请输入作者">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">价格：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="price" placeholder="请输入价格">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">图片：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="image" placeholder="请输入图片">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">简介：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="description" placeholder="请输入简介">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">类别：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="category" placeholder="请输入类别">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn col-sm-10 bg-info text-white" id="submitBook">提交</button>
+                </div>
+            </form>
+            <div class="pagination">
+                <ul>
+                    <li>
+                        <a href="#">上一页</a>
+                    </li>
+                    <li>
+                        <a href="#">1</a>
+                    </li>
+                    <li>
+                        <a href="#">2</a>
+                    </li>
+                    <li>
+                        <a href="#">3</a>
+                    </li>
+                    <li>
+                        <a href="#">4</a>
+                    </li>
+                    <li>
+                        <a href="#">5</a>
+                    </li>
+                    <li>
+                        <a href="#">下一页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
