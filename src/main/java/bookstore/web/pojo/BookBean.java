@@ -18,19 +18,19 @@ public class BookBean {
     private Double price;
     private String image;
     private String description;
-    private String category;
+    private String category_id;
 
     public BookBean() {
     }
 
-    public BookBean(String id, String name, String author, Double price, String image, String description, String category) {
+    public BookBean(String id, String name, String author, Double price, String image, String description, String category_id) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.price = price;
         this.image = image;
         this.description = description;
-        this.category = category;
+        this.category_id = category_id;
     }
 
     public String getId() {
@@ -81,11 +81,11 @@ public class BookBean {
         this.description = description;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategory_id() {
+        return category_id;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
     }
 }

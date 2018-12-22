@@ -4,7 +4,9 @@ import bookstore.web.pojo.OrdersBean;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @ Package: bookstore.web.dao
@@ -29,20 +31,10 @@ public class OrdersDaoImpl implements OrdersDao {
 
     @Override
     public ArrayList<OrdersBean> queryAllOrders() {
-        ArrayList<OrdersBean> list = new ArrayList<>();
         try{
             String sql = " select * from orders ";
             ResultSet rs = dbutil.executeQuery(sql);
-            while (rs.next()){
-                OrdersBean order = new OrdersBean();
-                order.setId(rs.getString("id"));
-                order.setOrdertime(rs.getDate("ordertime"));
-                order.setPrice(rs.getDouble("price"));
-                order.setState(rs.getString("state"));
-                order.setUser_id(rs.getString("user_id"));
-                list.add(order);
-            }
-            return list;
+            return bianLiRs(rs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,19 +44,9 @@ public class OrdersDaoImpl implements OrdersDao {
     @Override
     public ArrayList<OrdersBean> queryOriginalOrders() {
         String sql = "select * from orders where state=?";
-        ArrayList<OrdersBean> list = new ArrayList<>();
         try{
             ResultSet rs = dbutil.executeQuery(sql,"未完成");
-            while (rs.next()){
-                OrdersBean order = new OrdersBean();
-                order.setId(rs.getString("id"));
-                order.setOrdertime(rs.getDate("ordertime"));
-                order.setPrice(rs.getDouble("price"));
-                order.setState(rs.getString("state"));
-                order.setUser_id(rs.getString("user_id"));
-                list.add(order);
-            }
-            return list;
+            return bianLiRs(rs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,19 +56,9 @@ public class OrdersDaoImpl implements OrdersDao {
     @Override
     public ArrayList<OrdersBean> queryCompleteOrders() {
         String sql = "select * from orders where state=?";
-        ArrayList<OrdersBean> list = new ArrayList<>();
         try{
             ResultSet rs = dbutil.executeQuery(sql,"完成");
-            while (rs.next()){
-                OrdersBean order = new OrdersBean();
-                order.setId(rs.getString("id"));
-                order.setOrdertime(rs.getDate("ordertime"));
-                order.setPrice(rs.getDouble("price"));
-                order.setState(rs.getString("state"));
-                order.setUser_id(rs.getString("user_id"));
-                list.add(order);
-            }
-            return list;
+            return bianLiRs(rs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,6 +87,26 @@ public class OrdersDaoImpl implements OrdersDao {
                 }
                 return null;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public  ArrayList<OrdersBean> bianLiRs(ResultSet rs) {
+        ArrayList<OrdersBean> list = new ArrayList<>();
+        try{
+            while (rs.next()){
+                OrdersBean order = new OrdersBean();
+                order.setId(rs.getString("id"));
+                order.setOrdertime(rs.getDate("ordertime"));
+                order.setPrice(rs.getDouble("price"));
+                order.setState(rs.getString("state"));
+                order.setUser_id(rs.getString("user_id"));
+                list.add(order);
+            }
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }

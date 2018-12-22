@@ -2,6 +2,7 @@ package bookstore.web.dao;
 
 import bookstore.web.pojo.OrdersBean;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public interface OrdersDao {
@@ -13,4 +14,6 @@ public interface OrdersDao {
     public ArrayList<OrdersBean> queryCompleteOrders();
     /**修改订单状态*/
     public ArrayList<OrdersBean> updateOrdersState(String id);
+    /**遍历查询结果集*/
+    public  ArrayList<OrdersBean> bianLiRs(ResultSet rs);
 }

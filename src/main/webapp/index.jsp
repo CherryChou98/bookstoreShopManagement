@@ -51,7 +51,7 @@
                 <input class="formInput" type="password" name="password" id="password" placeholder="密码..." />
             </div>
             <div>
-                <input class="formInput1" id="submit" type="submit" value="管理员登录"/>
+                <button class="formInput1" id="submit" type="button">管理员登录</button>
             </div>
         </form>
     </div>

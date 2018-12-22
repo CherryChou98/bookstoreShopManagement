@@ -28,6 +28,10 @@ public class Dbutil {
     private Dbutil() {
     }
 
+    public Connection getConn() {
+        return conn;
+    }
+
     public void getConnection() throws Exception{
         Class.forName(DRIVER);
         conn = DriverManager.getConnection(URL);
@@ -48,7 +52,6 @@ public class Dbutil {
 
     public int executeUpdate(String sql, Object...obj) throws Exception{
         PreparedStatement pst = conn.prepareStatement(sql);
-        //给sql语句的占位符赋值
         if(obj!=null&&obj.length>0){
             for(int i=0;i<obj.length;i++){
                 pst.setObject(i+1,obj[i]);

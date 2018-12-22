@@ -1,5 +1,7 @@
 package bookstore.web.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -15,6 +17,7 @@ import java.util.Date;
 @Component
 public class OrdersBean {
     private String id;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date ordertime;
     private Double price;
     private String state;

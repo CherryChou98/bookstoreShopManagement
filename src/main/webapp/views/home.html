@@ -15,6 +15,7 @@
         $(function () {
             /*页面载入时*/
             $("#bookForm").hide();
+            $("#btnForm").hide();
             $("#search1").hide();
             $("#search2").hide();
             $("#showOrNot").hide();
@@ -41,6 +42,7 @@
             /*点击用户信息查询时*/
             $("#viewUser").click(function () {
                 $("#bookForm").hide();
+                $("#btnForm").hide();
                 $("#searchResult1").hide();
                 $("#searchResult2").hide();
                 $("#search1").hide();
@@ -76,6 +78,7 @@
         $(function () {
             $("#search").click(function () {
                 $("#bookForm").hide();
+                $("#btnForm").hide();
                 $("#searchResult1").hide();
                 $("#username").show();
                 $("#search").show();
@@ -104,6 +107,7 @@
         $(function () {
             $("#viewBook").click(function () {
                 $("#bookForm").hide();
+                $("#btnForm").hide();
                 $("#username").hide();
                 $("#search").hide();
                 $("#searchResult").hide();
@@ -122,7 +126,7 @@
                             var html = "";
                             html += "<thead><tr><th>书id</th><th>书名</th><th>作者</th><th>价格</th><th>图片</th><th>简介</th><th>类别</th></tr></thead>";
                             for(var i in data){
-                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].author+"</td><td>"+data[i].price+"</td><td>"+data[i].image+"</td><td>"+data[i].description+"</td><td>"+data[i].category+"</td></tr>";
+                                html += "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].author+"</td><td>"+data[i].price+"</td><td>"+data[i].image+"</td><td>"+data[i].description+"</td><td>"+data[i].category_id+"</td></tr>";
                                 $("#searchResult1").html(html);
                             }
                         }else {
@@ -148,6 +152,7 @@
                 $("#showOrNot").hide();
                 $("#searchResult3").hide();
                 $("#bookForm").show();
+                $("#btnForm").show();
             })
         })
         /*点击提交书籍表单时*/
@@ -163,39 +168,61 @@
                         "price": $("#price").val(),
                         "image": $("#image").val(),
                         "description": $("#description").val(),
-                        "category": $("#category").val()
+                        "category_id": $("#category_id").val()
                     },
                     dataType: "json",
                     success: function (data) {
                         $("#bookForm").hide();
-                        $("#searchResult1").show();
+                        $("#btnForm").hide();
                         if(data){
+                            var formData = new FormData();
+                            formData.append("id", $('#id').val());
+                            formData.append("files", $("#files")[0].files[0]);
                             $.ajax({
-                                url: "/book/viewAllBook",
-                                type: "GET",
+                                url: "/upload",
+                                type: "POST",
+                                cache: false,
                                 dataType: "json",
+                                data: formData,
+                                contentType: false,
+                                processData: false,
                                 success: function (data) {
+                                    $("#searchResult1").show();
                                     if(data){
-                                        var html = "";
-                                        html += "<thead><tr><th>书id</th><th>书名</th><th>作者</th><th>价格</th><th>图片</th><th>简介</th><th>类别</th></tr></thead>";
-                                        for(var i in data){
-                                            html += "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].author+"</td><td>"+data[i].price+"</td><td>"+data[i].image+"</td><td>"+data[i].description+"</td><td>"+data[i].category+"</td></tr>";
-                                            $("#searchResult1").html(html);
-                                        }
-                                    }else {
-                                        $("#searchResult1").html("未查询到书籍");
+                                        $.ajax({
+                                            url: "/book/viewAllBook",
+                                            type: "GET",
+                                            dataType: "json",
+                                            success: function (data) {
+                                                if(data){
+                                                    var html = "";
+                                                    html += "<thead><tr><th>书id</th><th>书名</th><th>作者</th><th>价格</th><th>图片</th><th>简介</th><th>类别</th></tr></thead>";
+                                                    for(var i in data){
+                                                        html += "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].author+"</td><td>"+data[i].price+"</td><td>"+data[i].image+"</td><td>"+data[i].description+"</td><td>"+data[i].category_id+"</td></tr>";
+                                                        $("#searchResult1").html(html);
+                                                    }
+                                                }else {
+                                                    $("#searchResult1").html("未查询到书籍");
+                                                }
+                                            },
+                                            error: function (jqXHR) {
+                                                alert("发生错误1："+jqXHR.status);
+                                            }
+                                        })
+                                    }else{
+                                        alert("文件上传失败：");
                                     }
                                 },
                                 error: function (jqXHR) {
-                                    alert("发生错误："+jqXHR.status);
+                                    alert("发生错误2："+jqXHR.status);
                                 }
                             })
                         }else {
-                            $("#searchResult1").html("未查询到书籍");
+                            $("#searchResult1").html("插入书籍失败");
                         }
                     },
                     error: function (jqXHR) {
-                        alert("发生错误："+jqXHR.status);
+                        alert("发生错误3："+jqXHR.status);
                     }
                 })
             })
@@ -204,6 +231,7 @@
         $(function () {
             $("#viewAllOrders").click(function () {
                 $("#bookForm").hide();
+                $("#btnForm").hide();
                 $("#searchResult1").hide();
                 $("#username").hide();
                 $("#search").hide();
@@ -240,6 +268,7 @@
         $(function () {
             $("#search1").click(function () {
                 $("#bookForm").hide();
+                $("#btnForm").hide();
                 $("#searchResult1").hide();
                 $("#username").hide();
                 $("#search").hide();
@@ -272,6 +301,7 @@
         $(function () {
             $("#search2").click(function () {
                 $("#bookForm").hide();
+                $("#btnForm").hide();
                 $("#searchResult1").hide();
                 $("#username").hide();
                 $("#search").hide();
@@ -328,6 +358,15 @@
             })
         })
     </script>
+    <style type="text/css">
+        body{
+            background-image: url("../image/bgp.png");
+            padding: 20px 0px;
+        }
+        .btn{
+            color: #5893d4;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -372,9 +411,9 @@
         </div>
         <div class="span10">
             <input class="input-large search-query" type="text"  name="username" id="username" placeholder="输入用户名" />
-            <button type="submit" class="btn" id="search">查找</button>
-            <button type="submit" class="btn" id="search1">查找初始订单</button>
-            <button type="submit" class="btn" id="search2">查找已完成订单</button>
+            <button type="button" class="btn" id="search">查找</button>
+            <button type="button" class="btn" id="search1">查找初始订单</button>
+            <button type="button" class="btn" id="search2">查找已完成订单</button>
 
             <table class="table table-hover" id="searchResult">
             </table>
@@ -386,12 +425,10 @@
             </table>
             <div id="showOrNot">
                 <input class="input-large search-query" type="text"  name="updateState" id="updateState" placeholder="输入更新订单的id" />
-                <button type="submit" class="btn" id="toggle">修改订单状态</button>
+                <button type="button" class="btn" id="toggle">修改订单状态</button>
             </div>
 
-
-
-            <form class="form-horizontal" role="form" id="bookForm">
+            <form class="form-horizontal" role="form" id="bookForm" method="post">
                 <legend>输入书籍信息</legend>
                 <div class="form-group">
                     <label class="col-sm-2">书籍id：</label>
@@ -417,29 +454,38 @@
                         <input type="text" class="form-control" id="price" placeholder="请输入价格">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" hidden>
                     <label class="col-sm-2">图片：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="image" placeholder="请输入图片">
+                        <input type="text" class="form-control" id="image" placeholder="请输入图片" value="null">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2">简介：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="description" placeholder="请输入简介">
+                       <!-- <input type="text" class="form-control" id="description" placeholder="请输入简介">-->
+                        <textarea type="text" class="form-control" id="description" placeholder="请输入简介"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2">类别：</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="category" placeholder="请输入类别">
+                        <input type="text" class="form-control" id="category_id" placeholder="请输入类别 1文学2体育...">
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn col-sm-10 bg-info text-white" id="submitBook">提交</button>
+                    <label class="col-sm-2">上传图片：</label>
+                    <div class="col-sm-8">
+                        <form class="form-horizontal" role="form" id="fileForm" enctype="multipart/form-data" method="POST">
+                            <input type="file" name="files" id="files">
+                        </form>
+                    </div>
+                </div>
+                <div class="form-group" id="btnForm">
+                    <button type="button" class="btn col-sm-10 bg-info text-white" id="submitBook">提交</button>
                 </div>
             </form>
-            <div class="pagination">
+            <!--<div class="pagination">
                 <ul>
                     <li>
                         <a href="#">上一页</a>
@@ -463,7 +509,7 @@
                         <a href="#">下一页</a>
                     </li>
                 </ul>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
